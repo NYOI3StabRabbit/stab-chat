@@ -1,79 +1,88 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { darkModeStore, userCredentialsStore, isLoggedInStore } from "../store";
+import { Redirect, useNavigate } from "react-router-dom";
 
 function Login() {
-    //   let username = "";
-    //   let password = "";
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+  //JUNAID, ADDED JUST FOR TESTING STATE, BUTTON ON LOGIN PAGE TO TOGGLE DARK MODE
+  let navigate = useNavigate();
+  const { toggleHuH, HuH } = darkModeStore();
+  useEffect(() => {
+    if (HuH) {
+      document.body.classList.add("HuH");
+    } else {
+      document.body.classList.remove("HuH");
+    }
+  }, [HuH]);
 
-    const handleUser = (e) => {
-        // username = e.target.value;
-        setUsername(e.target.value);
+  //JUNAID
+  //MOVED USER AND PASSWORD TO ZUSTAND STORE, FUNCTION FOR SETTING NEW USER AND PASSWORD IS IN THE ONCHANGE ON THE INPUT FOR EACH OF THEM
+  const { username, password, setpassword, setusername } =
+    userCredentialsStore();
+    console.log(username, password)
+  const { isLoggedIn, setIsLoggedIn } = isLoggedInStore();
+
+  const handleSubmit = async () => {
+    let reqBody = {
+      username: username,
+      password: password,
     };
+    //=============fetch===============
+    //input proper end point
+    await fetch("/db/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(reqBody),
+    });
+    //=============fetch===============
 
-    const handlePass = (e) => {
-        // password = e.target.value;
-        setPassword(e.target.value);
-    };
+    //Giles Steiner
+    //if user is assigned a cookie redirect them to window
+    if (Cookies.get("user")) {
+      setIsLoggedIn();
+      // window.location.href = "/window";
+      console.log("valid cookie");
+      // return redirect('/')
+      return navigate("/window");
+    }
+  };
 
-    const handleSubmit = async () => {
-        let temp = {
-            username: username,
-            password: password,
-        };
-        //=============fetch===============
-        //input proper end point
-        await fetch("/db/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(temp),
-        });
-        //=============fetch===============
-
-        //Giles Steiner
-        //if user is assigned a cookie redirect them to window
-        if (Cookies.get("user")) {
-            window.location.href = "/window";
-            console.log("valid cookie");
-        }
-    };
-
-    return (
-        <div>
-            <form className="initialForms">
-                <p className="formHeader"> Login Below: </p>
-                <br></br>
-                <div className="mb-3">
-                    <label className="form-label">Username</label>
-                    <input
-                        type="text"
-                        onChange={handleUser}
-                        className="form-control"
-                        id="inputUsername"
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input
-                        type="text"
-                        onChange={handlePass}
-                        className="form-control"
-                        id="inputPassword"
-                    />
-                </div>
-                <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={handleSubmit}
-                >
-                    Submit
-                </button>
-            </form>
+  return (
+    <div>
+      <button onClick={toggleHuH}>dark mode state test </button>
+      <form className="initialForms">
+        <p className="formHeader"> Login Below: </p>
+        <br></br>
+        <div className="mb-3">
+          <label className="form-label">Username</label>
+          <input
+            type="text"
+            onChange={(e) => setusername(e.target.value)}
+            className="form-control"
+            id="inputUsername"
+          />
         </div>
-    );
+        <div className="mb-3">
+          <label className="form-label">Password</label>
+          <input
+            type="text"
+            onChange={(e) => setpassword(e.target.value)}
+            className="form-control"
+            id="inputPassword"
+          />
+        </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default Login;

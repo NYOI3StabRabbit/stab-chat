@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Switch, Route } from "react-router-dom";
+import { BrowserRouter as Switch, Routes, Route } from "react-router-dom";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import LBar from "./components/LBar.jsx";
@@ -9,12 +9,12 @@ import "./stylesheets/styles.css";
 function App() {
   return (
     <div className="app">
-      <Switch>
-        <Route exact path="/" component={Basepage} />
-        <Route path="/window" component={LBar} />
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<Basepage/>} />
+        <Route path="/window" element={<LBar/>} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/signup" element={<Signup/>} />
+      </Routes>
     </div>
   );
 }

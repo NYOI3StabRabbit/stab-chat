@@ -3,10 +3,10 @@ import ChatWindow from "./ChatWindow.jsx";
 import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { motion } from "framer-motion";
+import { darkModeStore, userCredentialsStore } from "../store.js";
 
 export default function LBar() {
   // Tim Muller
-  //
   // State thing is added so that the channel can be updated
   const [newChannel, setChannel] = useState("");
 
@@ -14,23 +14,33 @@ export default function LBar() {
   const [channels, setChannels] = useState([]); //the channels that exist in db
   const [userChannels, setUserChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState("General"); //the current channel
-  //==========dark mode===========
-  const [theme, setTheme] = useState("light");
 
-  const toggleTheme = () => {
-    if (theme === "light") {
-      document.body.style.background = "#222222";
-      setTheme("dark");
-    } else {
-      document.body.style.background = "#0093e9";
-      setTheme("light");
-    }
-  };
+  //==========dark mode===========
+  //JUNAID, MOVED DARK MODE BUTTON TO ZUSTAND STATE
+
+  const { toggleHuH, HuH } = darkModeStore();
 
   useEffect(() => {
-    document.body.className = theme;
-  }, [theme]);
-  //==========dark mode===========
+    if (HuH) {
+      document.body.classList.add("HuH");
+    } else {
+      document.body.classList.remove("HuH");
+    }
+  }, [HuH]);
+
+  //JUNAID
+  //IMPORTING STATE FUNCTIONS TO SET THE USERNAME AND PASSWORD BACK TO EMPTY STRINGS FOR WHEN THE LOGOUT BUTTON IS PRESSED
+  //   const setusername = userCredentialsStore((state) => state.setusername);
+  //   const setpassword = userCredentialsStore((state) => state.setpassword);
+  //   const username = userCredentialsStore((state) => state.username);
+  //   const password = userCredentialsStore((state) => state.password);
+
+  userCredentialsStore((state) => {
+    console.log(state);
+  });
+
+  //why are these empty? the state has been set in the previous component so these should have a value of the current user/password
+  //   console.log("username: ", username, "password: ", password);
 
   // Giles Steiner
   //
@@ -195,7 +205,7 @@ export default function LBar() {
         {" "}
         Logout{" "}
       </button>
-      <button onClick={toggleTheme} className="darkmodeButton">
+      <button onClick={toggleHuH} className="darkmodeButton">
         Huh?
       </button>
     </>
