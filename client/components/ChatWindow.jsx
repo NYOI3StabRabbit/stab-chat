@@ -21,22 +21,23 @@ export default function ChatWindow(props) {
   const [ws, setWs] = useState(webSocket);
 
   // const [ws, setWs] = useState(new WebSocket("ws://localhost:8082"))
-  useEffect(() => {
+  // useEffect(() => {
     webSocket.onmessage = ({ data }) => {
-      const parsed = JSON.parse(data)
+      const parsed = JSON.parse(data);
       if (parsed.messages) {
-        const newMessage = parsed.messages[parsed.messages.length - 1]
+        const newMessage = parsed.messages[parsed.messages.length - 1];
+        console.log(parsed.messages[parsed.messages.length - 1]);
         const newChats = [...chats];
-        newChats.push({ message: newMessage.message, username: newMessage.username, _id: newMessage._id })
-        setChats(newChats)
+        newChats.push({
+          message: newMessage.message,
+          username: newMessage.username,
+          _id: newMessage._id,
+        });
+        setChats(newChats);
       }
-    }
-
-    return () => {
-      console.log('unmounted')
-    }
-  }, [chats])
-
+      console.log("server sent this");
+    };
+  // }, [chats]);
 
   useEffect(() => {
     // if (!ws && webSocket) {
