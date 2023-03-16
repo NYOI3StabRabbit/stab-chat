@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
 import { channelStore, userCredentialsStore } from "../store.js";
 
 export default function LBar() {
@@ -14,10 +13,11 @@ export default function LBar() {
     userChannels,
     newChannel,
     setNewChannel,
+    selectedChannel,
+    setSelectedChannel,
   } = channelStore();
   const { username } = userCredentialsStore();
-  console.log(userChannels, "1st");
-  console.log(channels, "1st");
+  console.log(selectedChannel);
   // Giles Steiner
   //
   // Purpose: pulls the list of channels that exist in the database
@@ -96,19 +96,15 @@ export default function LBar() {
   // db/subscribe subscribing the user to that channel and updating the cookie preference
   async function browseChannelClick() {
     // console.log("clicked: ", document.getElementById('browseChannelName').value);
-    console.log("subscribing to new channel");
-    console.log(
-      document.getElementById("browseChannelName").value,
-      "subbing to this"
-    );
-    await fetch("./db/subscribe", {
-      method: "PUT",
-      body: JSON.stringify({
-        channel: document.getElementById("browseChannelName").value,
-        username,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
+    console.log(selectedChannel, "subbing to this");
+    // await fetch("./db/subscribe", {
+    //   method: "PUT",
+    //   body: JSON.stringify({
+    //     channel: document.getElementById("browseChannelName").value,
+    //     username,
+    //   }),
+    //   headers: { "Content-Type": "application/json" },
+    // });
   }
 
   // Giles Steiner
@@ -129,7 +125,10 @@ export default function LBar() {
         <div id="browseChannels">
           Browse Channels<br></br>
           {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
-          <select id="browseChannelName">
+          <select
+            onChange={(e) => setSelectedChannel(e.target.value)}
+            id="browseChannelName"
+          >
             {channels.map((channel, index) => {
               if (!userChannels.includes(channel)) {
                 return (

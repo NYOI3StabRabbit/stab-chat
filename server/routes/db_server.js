@@ -62,7 +62,6 @@ router.post(
 /* Deletes a channel if the user is the channel's owner - M */
 router.post(
   "/deleteChannel",
-  // channelController.consoleLog,
   channelController.channelCheck,
   channelController.unsubscribeAll,
   channelController.deleteChannel,

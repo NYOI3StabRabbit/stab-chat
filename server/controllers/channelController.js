@@ -113,7 +113,7 @@ channelController.channelCheck = async (req, res, next) => {
 
 channelController.deleteChannel = async (req, res, next) => {
   console.log("Deleting channel");
-  if (!req.cookies.user || !req.body.channel) return next();
+  if (!req.body.channel) return next();
   res.locals.channel = req.body.channel;
   console.log("DELETING: " + req.body.channel);
 

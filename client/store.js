@@ -46,6 +46,9 @@ const channelStore = create((set) => ({
   },
   newChannel: "",
   setNewChannel: (newlyAddedChannel) => set({ newChannel: newlyAddedChannel }),
+  selectedChannel: "",
+  setSelectedChannel: (newSelectedChannel) =>
+    set({ selectedChannel: newSelectedChannel }),
 }));
 
 export { darkModeStore, userCredentialsStore, isLoggedInStore, channelStore };
