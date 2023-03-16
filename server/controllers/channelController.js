@@ -130,6 +130,8 @@ channelController.deleteChannel = async (req, res, next) => {
   const delChan = await Channel.findOne({ owner: username });
   if (delChan === null) {
     console.log("User does not own channel!");
+    res.locals.notOwner = true;
+    return next();
   }
   // Remove channel from owned channels, then delete channel - M
   await User.findOneAndUpdate(
