@@ -161,7 +161,7 @@ export default function ChatWindow(props) {
   return (
     <div className="chatWindow">
       <div id="chatHeader">
-        <p id="channelNameHeader">{currentChannel}</p>
+        <p id="channelNameHeader">{'# ' + currentChannel.toLowerCase()}</p>
         <button
           type="button"
           className="unsubscribe"

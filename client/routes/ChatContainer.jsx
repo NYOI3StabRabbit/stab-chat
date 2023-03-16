@@ -13,7 +13,6 @@ export default function ChatContainer() {
     <Navigate to="/login" />
   ) : (
     <div className="chatPage">
-      <h2>hey {username}</h2>
       <Header />
       <div className="midContainer">
         <LBar />

@@ -35,11 +35,18 @@ input {
     align-items: center;
 }
 
+#welcomeUser {
+    font-size: 18px;
+    align-self: left;
+    flex: 1;
+}
+
 #chatPageHeaderTitle {
-    flex: 7;
+    flex: 6;
     text-align: left;
-    padding-left: 5em;
+    padding-left: 1em;
     min-width: 5em;
+    font-size: 50px;
 
 }
 
@@ -142,10 +149,15 @@ button:hover {
     -webkit-transform: scale(1.05);
 }
 
+#channelNameHeader {
+    font-size: 36px;
+}
+
 .chatWindow {
     background-color: $chat-page-lighter5;
     border-radius: 5px;
-    width: 95vw;
+    min-width: 40vw;
+    max-width: 80vw;
     margin-inline: auto;
     display: flex;
     flex-direction: column;
@@ -156,12 +168,14 @@ button:hover {
 
 #chatHeader {
     background-color: $chat-page-lighter5;
+    // margin-top: 1em;
+    border-radius: 5px;
+    size: 24px;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     padding-inline: 1em;
     flex: 1;
-    border-bottom: 1px solid $chat-page-lighter7;
-    margin-inline: 1em;
 }
 
 #chatMessages {
@@ -206,14 +220,15 @@ button:hover {
 
 .sendButton {
     height: 2em;
-    width: 5em;
-    background-color: $chat-page-lighter7;
+    width: 6em;
+    background-color: $chat-page-lighter3;
+    font-weight: bold;
 }
 
 .sendButton:hover {
     height: 2em;
-    width: 5em;
-    background-color: $chat-page-lighter9;
+    width: 6em;
+    background-color: $chat-page-lighter;
     -webkit-transform: scale(1.05);
 }
 
@@ -226,11 +241,28 @@ button:hover {
     size: 1em;
     margin-right: 3em;
     min-width: 4em;
+    color: $font-primary;
 
 }
 
 .theMessage {
-    color: $font-secondary2;
+    color: $font-secondary3;
+    text-align: left;
+    margin-right: 20em;
+    // border-bottom: 1px solid $chat-page-lighter9;
+    margin-bottom: 2em;
+}
+
+.unsubscribe {
+    background-color: $chat-page-lighter5;
+}
+
+.unsubscribe:hover {
+    background-color: $chat-page-lighter2;
+}
+
+.HuH {
+    background-color: $chat-page-darker;
 }
 
 @media (max-width: $breakpoint-tablet) {
