@@ -67,7 +67,11 @@ router.post(
   channelController.unsubscribeAll,
   channelController.deleteChannel,
   (req, res) => {
-    res.sendStatus(200);
+    if (res.locals.notOwner) {
+      res.status(400).send("not owner");
+    } else {
+      res.status(200).send("deleted");
+    }
   }
 );
 /* Unsubscribes from a channel - M */
