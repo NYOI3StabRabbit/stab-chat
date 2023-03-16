@@ -36,7 +36,7 @@ function Header() {
           <button type="button" onClick={logoutUser}>
             Logout
           </button>
-          <button onClick={toggleHuH}>Change Theme</button>
+          <button onClick={toggleHuH}>Say whaaatt?</button>
         </div>
       </div>
   );

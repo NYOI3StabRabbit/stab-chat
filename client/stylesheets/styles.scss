@@ -36,6 +36,7 @@ input {
 }
 
 #welcomeUser {
+    font-size: 18px;
     align-self: left;
     flex: 1;
 }
@@ -258,6 +259,10 @@ button:hover {
 
 .unsubscribe:hover {
     background-color: $chat-page-lighter2;
+}
+
+.HuH {
+    background-color: $chat-page-darker;
 }
 
 @media (max-width: $breakpoint-tablet) {
