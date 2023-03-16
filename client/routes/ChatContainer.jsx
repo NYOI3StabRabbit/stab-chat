@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import Header from "../components/Header.jsx";
 import LBar from "../components/LBar.jsx";
 import ChatWindow from "../components/ChatWindow";
-import { isLoggedInStore } from "../store.js";
+import { isLoggedInStore, userCredentialsStore } from "../store.js";
 import { useNavigate } from "react-router-dom";
 
 export default function ChatContainer() {
+  const { username } = userCredentialsStore();
   const { isLoggedIn } = isLoggedInStore();
   const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ export default function ChatContainer() {
   }, [isLoggedIn]);
   return (
     <div>
+      <h1>Hey {username}</h1>
       <Header />
       <div>
         <LBar />
