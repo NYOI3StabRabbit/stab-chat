@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Header() {
   //JUNAID
   //when logout is pressed, we will set password and username in state back to empty, we will also set isloggedin back to false, and then redirect the user back to the login screen
-  const { setUsername, setPassword } = userCredentialsStore();
+  const { setUsername, setPassword, username } = userCredentialsStore();
   const { setIsLoggedIn } = isLoggedInStore();
 
   const navigate = useNavigate();
@@ -35,8 +35,8 @@ function Header() {
   return (
       <div className="chatPageHeader">
         <div id="chatPageHeaderTitle">
-          STAB CHAT
-        </div>
+        🐰 /slashChat 🐰
+        </div><span id="welcomeUser">Welcome back {username}</span>
         <div id="chatPageHeaderButtons">
           <button type="button" onClick={logoutUser}>
             Logout
