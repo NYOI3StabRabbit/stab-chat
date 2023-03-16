@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import ChatBubble from "./ChatBubble.jsx";
 import Cookies from "js-cookie";
-
-import { currentChannelStore } from "../store.js";
-import { WsContext } from '../webSocketProvider.jsx';
+import { WsContext } from "../webSocketProvider.jsx";
+import { channelStore, userCredentialsStore } from "../store";
 
 export default function ChatWindow(props) {
-  const { currentChannel } = currentChannelStore();
+  const { currentChannel } = channelStore();
+  const { username } = userCredentialsStore();
   // const wsRef = new WebSocket('ws://localhost:8082')
 
   //Giles Steiner
@@ -26,12 +26,10 @@ export default function ChatWindow(props) {
       const parsed = JSON.parse(data)
       if (parsed.messages) {
         const newMessage = parsed.messages[parsed.messages.length - 1]
-        console.log(parsed.messages[parsed.messages.length - 1])
         const newChats = [...chats];
         newChats.push({ message: newMessage.message, username: newMessage.username, _id: newMessage._id })
         setChats(newChats)
       }
-      console.log('server sent this')
     }
 
     return () => {
@@ -44,7 +42,6 @@ export default function ChatWindow(props) {
     // if (!ws && webSocket) {
     //   setWs(webSocket);
     // }
-    console.log('mount', testRef.current, webSocket)
     setWs(webSocket)
 
     if (webSocket) {
@@ -77,11 +74,11 @@ export default function ChatWindow(props) {
     //   body: JSON.stringify({ message: message, channel: currentChannel }),
     //   headers: { 'Content-Type': 'application/json' },
     // });
-    const user = document.cookie.split('; ').find(e => e.startsWith("user="))?.split("=")[1]
-    webSocket.send(JSON.stringify({ message, currentChannel, user }))
-    setMessage('');
-    let stuff = document.getElementById('inputMessage');
-    stuff.value = '';
+    const user = username;
+    webSocket.send(JSON.stringify({ message, currentChannel, user }));
+    setMessage("");
+    let stuff = document.getElementById("inputMessage");
+    stuff.value = "";
     const audio = new Audio("db/static/iphone_woosh.mp3");
     audio.play();
   };
@@ -128,7 +125,6 @@ export default function ChatWindow(props) {
     if (messageBoxRef.current) {
       messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    console.log("chat's changed")
   }, [chats]);
 
 
