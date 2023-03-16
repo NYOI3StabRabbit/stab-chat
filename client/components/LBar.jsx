@@ -1,6 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
+import { useEffect, useRef } from "react";
 import { channelStore, userCredentialsStore } from "../store.js";
 
 export default function LBar() {
@@ -16,8 +15,10 @@ export default function LBar() {
     setNewChannel,
   } = channelStore();
   const { username } = userCredentialsStore();
-  console.log(userChannels, "1st");
-  console.log(channels, "1st");
+
+  const addChannelText = useRef();
+  const delChannelMenu = useRef();
+  const subChannelMenu = useRef();
   // Giles Steiner
   //
   // Purpose: pulls the list of channels that exist in the database
@@ -69,6 +70,7 @@ export default function LBar() {
         setNewChannel("");
         setUserChannels(userChannels);
         setChannels(channels);
+        addChannelText.current.value = "";
       });
     } else {
       alert("invalid input");
@@ -77,20 +79,31 @@ export default function LBar() {
   };
 
   const delChannel = async () => {
-    console.log("DELETE CHANNEL FETCH");
-    await fetch("./db/deleteChannel", {
+    let channelToDelete;
+    if (!newChannel) {
+      channelToDelete = delChannelMenu.current.value;
+    } else {
+      channelToDelete = newChannel;
+    }
+    console.log("DELETE CHANNEL FETCH", channelToDelete);
+    const res = await fetch("./db/deleteChannel", {
       method: "POST",
-      body: JSON.stringify({ channel: newChannel }),
+      body: JSON.stringify({ channel: channelToDelete, username }),
       headers: { "Content-Type": "application/json" },
     });
-    const newChannels = channels.filter((channel) => {
-      return channel !== newChannel;
-    });
-    const newUserChannels = userChannels.filter((channel) => {
-      return channel !== newChannel;
-    });
-    setUserChannels(newUserChannels);
-    setChannels(newChannels);
+    if (res.status < 400) {
+      const newChannels = channels.filter((channel) => {
+        return channel !== channelToDelete;
+      });
+      const newUserChannels = userChannels.filter((channel) => {
+        return channel !== channelToDelete;
+      });
+      setUserChannels(newUserChannels);
+      setChannels(newChannels);
+    } else {
+      alert("you do not have permission to delete");
+      return;
+    }
   };
 
   // Giles Steiner
@@ -107,16 +120,22 @@ export default function LBar() {
   // When user clicks a new message from the drop down menu a PUT request is done to
   // db/subscribe subscribing the user to that channel and updating the cookie preference
   async function browseChannelClick() {
-    console.log("subscribing to new channel: ", newChannel);
+    let channelToSubscribe;
+    if (!newChannel) {
+      channelToSubscribe = subChannelMenu.current.value;
+    } else {
+      channelToSubscribe = newChannel;
+    }
+    console.log("subscribing to new channel: ", channelToSubscribe);
     await fetch("./db/subscribe", {
       method: "PUT",
       body: JSON.stringify({
-        channel: newChannel,
+        channel: channelToSubscribe,
         username,
       }),
       headers: { "Content-Type": "application/json" },
     });
-    userChannels.push(newChannel);
+    userChannels.push(channelToSubscribe);
     setUserChannels(userChannels);
   }
 
@@ -139,6 +158,7 @@ export default function LBar() {
           Browse Channels<br></br>
           {/* add onClick to the select drop-down menu below which will fetch query the server, rather than setTimeout every few seconds */}
           <select
+            ref={subChannelMenu}
             onChange={(e) => setNewChannel(e.target.value)}
             id="browseChannelName"
           >
@@ -183,6 +203,7 @@ export default function LBar() {
                   type="text"
                   id="inputChannel"
                   onChange={(e) => setNewChannel(e.target.value)}
+                  ref={addChannelText}
                 />
               </div>
               <button
@@ -200,11 +221,20 @@ export default function LBar() {
           <div>Delete a channel</div>
           <form className="channelForm">
             <div className="channelNameBox">
-              <input
-                type="text"
-                id="inputChannelDel"
+              <select
+                ref={delChannelMenu}
                 onChange={(e) => setNewChannel(e.target.value)}
-              />
+              >
+                {channels.map((channel, index) => {
+                  if (userChannels.includes(channel) && channel !== "General") {
+                    return (
+                      <option key={index + 10000} value={channel}>
+                        {channel}
+                      </option>
+                    );
+                  }
+                })}
+              </select>
             </div>
             <button id="delChannelButton" type="button" onClick={delChannel}>
               Delete
