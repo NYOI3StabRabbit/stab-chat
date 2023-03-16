@@ -43,7 +43,7 @@ export default function ChatWindow(props) {
     // if (!ws && webSocket) {
     //   setWs(webSocket);
     // }
-    setWs(webSocket)
+    setWs(webSocket);
 
     if (webSocket) {
       // setWs(ws)
