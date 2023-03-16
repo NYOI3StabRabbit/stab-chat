@@ -22,21 +22,21 @@ export default function ChatWindow(props) {
 
   // const [ws, setWs] = useState(new WebSocket("ws://localhost:8082"))
   // useEffect(() => {
-    webSocket.onmessage = ({ data }) => {
-      const parsed = JSON.parse(data);
-      if (parsed.messages) {
-        const newMessage = parsed.messages[parsed.messages.length - 1];
-        console.log(parsed.messages[parsed.messages.length - 1]);
-        const newChats = [...chats];
-        newChats.push({
-          message: newMessage.message,
-          username: newMessage.username,
-          _id: newMessage._id,
-        });
-        setChats(newChats);
-      }
-      console.log("server sent this");
-    };
+  webSocket.onmessage = ({ data }) => {
+    const parsed = JSON.parse(data);
+    if (parsed.messages) {
+      const newMessage = parsed.messages[parsed.messages.length - 1];
+      console.log(parsed.messages[parsed.messages.length - 1]);
+      const newChats = [...chats];
+      newChats.push({
+        message: newMessage.message,
+        username: newMessage.username,
+        _id: newMessage._id,
+      });
+      setChats(newChats);
+    }
+    console.log("server sent this");
+  };
   // }, [chats]);
 
   useEffect(() => {
@@ -78,8 +78,9 @@ export default function ChatWindow(props) {
     const user = username;
     webSocket.send(JSON.stringify({ message, currentChannel, user }));
     setMessage("");
-    let stuff = document.getElementById("inputMessage");
-    stuff.value = "";
+    // let stuff = document.getElementById("inputMessage");
+    // stuff.value = "";
+    setMessage("")
     const audio = new Audio("db/static/iphone_woosh.mp3");
     audio.play();
   };
@@ -175,7 +176,7 @@ export default function ChatWindow(props) {
       </div>
       <div className="submitChats">
         <div id="messageForm">
-          <input type="text" id="inputMessage" onChange={handleMessage} />
+          <input type="text" value={message} id="inputMessage" onChange={handleMessage} />
         </div>
         <div id="messageSubmit">
 
