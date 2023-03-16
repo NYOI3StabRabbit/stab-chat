@@ -14,9 +14,15 @@ function Header() {
   const { toggleHuH, HuH } = darkModeStore();
   useEffect(() => {
     if (HuH) {
-      document.body.classList.add("HuH");
+      document.body.classList.add("bodyDM");
+      // const list = document.querySelector('.chatPageHeader');
+      // list.classList.add('.chatPageHeaderDM')
+      // document.input.classList.add("inputDM");
     } else {
-      document.body.classList.remove("HuH");
+      document.body.classList.remove("bodyDM");
+      // const list = document.querySelector('.chatPageHeader');
+      // list.classList.remove('.chatPageHeaderDM')
+      // document.input.classList.remove("inputDM");
     }
   }, [HuH]);
 

@@ -16,3 +16,19 @@ $font-secondary: lighten($font-primary, 20%);
 $font-secondary2: lighten($font-primary, 30%);
 // breakpoints
 $breakpoint-tablet: 700px;
+
+// Dark Mode
+$chat-page-darkmode-primary: #131418; 
+$chat-page-darkmode-darker: darken($chat-page-darkmode-primary, 50%);
+$chat-page-darkmode-lighter: lighten($chat-page-darkmode-primary, 10%);
+$chat-page-darkmode-lighter2: lighten($chat-page-darkmode-primary, 20%);
+$chat-page-darkmode-lighter3: lighten($chat-page-darkmode-primary, 30%);
+$chat-page-darkmode-lighter4: lighten($chat-page-darkmode-primary, 40%);
+$chat-page-darkmode-lighter5: lighten($chat-page-darkmode-primary, 50%);
+$chat-page-darkmode-lighter7: lighten($chat-page-darkmode-primary, 70%);
+$chat-page-darkmode-lighter9: lighten($chat-page-darkmode-primary, 90%);
+
+// Font Color DM
+$font-darkmode-primary: rgb(215, 215, 215);
+$font-darkmode-secondary: darken($font-primary, 20%);
+$font-darkmode-secondary2: darken($font-primary, 30%);

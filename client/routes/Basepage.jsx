@@ -5,7 +5,7 @@ function Basepage() {
   // Giles Steiner
   //
   //if the user is already logged in redirect them to window else take them to login
-  if (Cookies.get("user")) window.location.href = "/window";
+  if (Cookies.get("user")) window.location.href = "/chat";
   else window.location.href = "/login";
 
   return <></>;
